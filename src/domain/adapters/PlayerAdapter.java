@@ -8,5 +8,5 @@ package domain.adapters;
  * @param timeLimit
  * @param stonesLeft
  */
-public record PlayerAdapter(String name, ColorAdapter color, int score, int timeLimit, int stonesLeft) {
+public record PlayerAdapter(String name, ColorAdapter color, int score, int timeLimit, int stonesLeft, boolean human) {
 }

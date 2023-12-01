@@ -48,7 +48,7 @@ public class Board {
      *
      * @return True if there is a draw condition, false otherwise
      */
-    public boolean draw() {
+    public boolean fullBoard() {
         return false;
     }
 
@@ -57,7 +57,7 @@ public class Board {
      *
      * @return True if win condition is met, false otherwise
      */
-    public boolean won() {
+    public boolean chainOfFive() {
         return false;
     }
 
@@ -70,5 +70,9 @@ public class Board {
      */
     public Tile getTile(int row, int col) {
         return tiles[row][col];
+    }
+
+    public int size() {
+        return this.size;
     }
 }

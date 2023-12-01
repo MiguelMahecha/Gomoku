@@ -8,6 +8,7 @@ public class Stone {
     public static final int TEMPORAL = 2;
     protected final ColorAdapter color;
     protected final Tile tile;
+    protected int type;
 
     /**
      * Create a new Stone
@@ -17,6 +18,7 @@ public class Stone {
     public Stone(ColorAdapter color, Tile tile) {
         this.color = color;
         this.tile = tile;
+        this.type = NORMAL;
     }
 
     /**
@@ -25,5 +27,13 @@ public class Stone {
      */
     public ColorAdapter getColor() {
         return this.color;
+    }
+
+    public String getType() {
+        return switch (this.type) {
+            case HEAVY -> "Heavy";
+            case TEMPORAL -> "Temporal";
+            default -> "Normal";
+        };
     }
 }
