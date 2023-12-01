@@ -44,7 +44,8 @@ public class Board {
     }
 
     /**
-     * Check for a draw condition
+     * TODO: Check for a draw condition
+     *
      * @return True if there is a draw condition, false otherwise
      */
     public boolean draw() {
@@ -52,7 +53,8 @@ public class Board {
     }
 
     /**
-     * Check for win condition
+     * TODO: Check for win condition
+     *
      * @return True if win condition is met, false otherwise
      */
     public boolean won() {
@@ -61,6 +63,7 @@ public class Board {
 
     /**
      * Get the tile at the given position
+     *
      * @param row The row
      * @param col The col
      * @return The tile if found
