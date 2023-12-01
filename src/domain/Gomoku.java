@@ -6,6 +6,9 @@ import domain.adapters.StoneAdapter;
 import domain.adapters.TileAdapter;
 
 public class Gomoku {
+    public static final String NORMAL = "Normal";
+    public static final String QUICKTIME = "QuickTime";
+    public static final String STONE_LIMIT = "StoneLimit";
     private final GameStrategy strategy;
 
     /**
@@ -91,5 +94,9 @@ public class Gomoku {
     public PlayerAdapter getWinner() throws GomokuException {
         Player p = strategy.getWinner();
         return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTimeLeft(), p.getStonesLeft(), p instanceof HumanPlayer);
+    }
+
+    public String getType() {
+        return strategy.getType();
     }
 }

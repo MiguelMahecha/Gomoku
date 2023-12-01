@@ -20,4 +20,9 @@ public class StoneLimitGame extends GameStrategy{
     public Player getWinner() {
         return null;
     }
+
+    @Override
+    public String getType() {
+        return "StoneLimit";
+    }
 }

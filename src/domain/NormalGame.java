@@ -20,7 +20,7 @@ public class NormalGame extends GameStrategy {
         this.player2.assignTime(playerAdapter2.timeLimit()).assignStones(playerAdapter2.stonesLeft());
 
         this.currentPlayer = this.player1;
-        
+
 //        Board setup
         this.board = new Board(size);
     }
@@ -46,5 +46,10 @@ public class NormalGame extends GameStrategy {
     @Override
     public Player getWinner() {
         return null;
+    }
+
+    @Override
+    public String getType() {
+        return Gomoku.NORMAL;
     }
 }

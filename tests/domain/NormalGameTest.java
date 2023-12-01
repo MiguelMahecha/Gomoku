@@ -27,10 +27,34 @@ class NormalGameTest {
     public void shouldCreateAGameWithValidSettings() {
         try {
             game = new Gomoku(p1, p2, size);
+            assertEquals(Gomoku.NORMAL, game.getType());
             assertEquals(p1, game.getCurrentPlayer());
             assertEquals(size, game.getBoard().length);
         } catch (GomokuException e) {
             fail("Creation Failed: " + e.getMessage());
         }
+    }
+
+    @Test
+    public void shouldFindPlayerByColor() {
+        try {
+            game = new Gomoku(p1, p2, size);
+            PlayerAdapter p_1 = game.getPlayerByColor(colorPlayer1);
+            assertEquals(p1, p_1);
+            PlayerAdapter p_2 = game.getPlayerByColor(colorPlayer2);
+            assertEquals(p2, p_2);
+        } catch (GomokuException e) {
+            fail("Threw exception: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void shouldFailIfSearchingForNonExistentPlayerColor() {
+        GomokuException exception = assertThrows(GomokuException.class, () -> {
+            game = new Gomoku(p1, p2, size);
+            PlayerAdapter p = game.getPlayerByColor(new ColorAdapter(1, 2, 3));
+        });
+
+        assertTrue(exception.getMessage().contains(GomokuException.NO_PLAYER_WITH_COLOR));
     }
 }

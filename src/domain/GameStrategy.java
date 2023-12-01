@@ -88,4 +88,6 @@ public abstract class GameStrategy {
             default -> false;
         };
     }
+
+    public abstract String getType();
 }

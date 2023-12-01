@@ -20,4 +20,9 @@ public class QuickTimeGame extends GameStrategy{
     public Player getWinner() {
         return null;
     }
+
+    @Override
+    public String getType() {
+        return "QuickTime";
+    }
 }
