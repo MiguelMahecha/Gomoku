@@ -29,6 +29,11 @@ public abstract class Player {
         return this;
     }
 
+    public Player assignStones(int amount) {
+        if (stonesLeft == 0) stonesLeft = amount;
+        return this;
+    }
+
     /**
      * Player's name
      * @return A string, the player's name
