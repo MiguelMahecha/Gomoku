@@ -8,20 +8,41 @@ import domain.adapters.TileAdapter;
 public class Gomoku {
     private final GameStrategy strategy;
 
+    /**
+     * Create a new NORMAL game
+     * @param player1 Player One Info
+     * @param player2 Player Two Info
+     * @param size Size of the board
+     * @throws GomokuException If an error occurs on game initialization
+     */
     public Gomoku(PlayerAdapter player1, PlayerAdapter player2, int size) throws GomokuException {
         strategy = new NormalGame(player1, player2, size);
     }
 
+    /**
+     * Get the current player
+     * @return A Player Adapter
+     */
     public PlayerAdapter getCurrentPlayer() {
         Player p = strategy.getCurrentPlayer();
         return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTimeLeft(), p.getStonesLeft(), p instanceof HumanPlayer);
     }
 
+    /**
+     * Get player by their color
+     * @param color The color to search
+     * @return A PlayerAdapter if player is found
+     * @throws GomokuException If no player has that color
+     */
     public PlayerAdapter getPlayerByColor(ColorAdapter color) throws GomokuException {
         Player p = strategy.getPlayerByColor(color);
         return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTimeLeft(), p.getStonesLeft(), p instanceof HumanPlayer);
     }
 
+    /**
+     * Get the board as a matrix of Tile Adapters
+     * @return A 2D Array of Tile Adapters
+     */
     public TileAdapter[][] getBoard() {
         Board board = strategy.getBoard();
         TileAdapter[][] tiles = new TileAdapter[strategy.gameSize()][strategy.gameSize()];
@@ -35,19 +56,39 @@ public class Gomoku {
         return tiles;
     }
 
+    /**
+     * Play a move
+     * @param row The row to place the stone in
+     * @param col The col to place the stone in
+     * @param type The type of stone to place. Possible options available as static fields in Stone class
+     * @throws GomokuException If col and row are invalid, or if stone type is invalid
+     */
     public void play(int row, int col, int type) throws GomokuException {
         strategy.play(row, col, type);
     }
 
+    /**
+     * Check if win condition has been met
+     * @return True if win condition has been met, false otherwise
+     */
     public boolean gameWon() {
         return strategy.gameWon();
     }
 
+    /**
+     * Check if draw condition has been met
+     * @return True if draw condition has been met, false otherwise
+     */
     public boolean gameDraw() {
         return strategy.gameDraw();
     }
 
-    public PlayerAdapter getWinner() {
+    /**
+     * Get the player who has won the game
+     * @return The player who has won the game
+     * @throws GomokuException If nobody has won the game
+     */
+    public PlayerAdapter getWinner() throws GomokuException {
         Player p = strategy.getWinner();
         return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTimeLeft(), p.getStonesLeft(), p instanceof HumanPlayer);
     }

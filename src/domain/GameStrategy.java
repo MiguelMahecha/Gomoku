@@ -66,4 +66,26 @@ public abstract class GameStrategy {
      * @return A Player
      */
     public abstract Player getWinner();
+
+    /**
+     * Check if the given coordinates are valid
+     * @param row The row
+     * @param col The col
+     * @return True if the coordinate is valid
+     */
+    protected boolean validCoordinate(int row, int col) {
+        return row >= 0 && row <= board.size() && col >= 0 && col <= board.size();
+    }
+
+    /**
+     * Check if the given type is a valid stone type
+     * @param type The Stone type
+     * @return True if stone type is valid
+     */
+    protected boolean validateStoneType(int type) {
+        return switch (type) {
+            case Stone.HEAVY, Stone.NORMAL, Stone.TEMPORAL -> true;
+            default -> false;
+        };
+    }
 }
