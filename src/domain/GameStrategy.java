@@ -47,7 +47,7 @@ public abstract class GameStrategy {
      * @param type The Stone type. Available Stone types are available as static fields of Stone class
      * @throws GomokuException If the move or stone type are not valid
      */
-    public abstract void play(int row, int col, int type) throws GomokuException;
+    public abstract void play(int row, int col, String type) throws GomokuException;
 
     /**
      * Check if win condition has been met
@@ -82,7 +82,7 @@ public abstract class GameStrategy {
      * @param type The Stone type
      * @return True if stone type is valid
      */
-    protected boolean validateStoneType(int type) {
+    protected boolean validateStoneType(String type) {
         return switch (type) {
             case Stone.HEAVY, Stone.NORMAL, Stone.TEMPORAL -> true;
             default -> false;

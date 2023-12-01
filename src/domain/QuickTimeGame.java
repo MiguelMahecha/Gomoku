@@ -2,7 +2,7 @@ package domain;
 
 public class QuickTimeGame extends GameStrategy{
     @Override
-    public void play(int row, int col, int type) throws GomokuException {
+    public void play(int row, int col, String type) throws GomokuException {
 
     }
 

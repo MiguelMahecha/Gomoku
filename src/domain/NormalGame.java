@@ -17,9 +17,9 @@ public class NormalGame extends GameStrategy{
     }
 
     @Override
-    public void play(int row, int col, int type) throws GomokuException {
+    public void play(int row, int col, String type) throws GomokuException {
         if (!validCoordinate(row, col)) throw new GomokuException(GomokuException.NOT_VALID_COORDINATE + String.format("(%d, %d)", row, col));
-        if (!validateStoneType(type)) throw new GomokuException(GomokuException.NOT_VALID_STONE_TYPE);
+        if (!validateStoneType(type)) throw new GomokuException(GomokuException.NOT_VALID_STONE_TYPE + type);
 
     }
 

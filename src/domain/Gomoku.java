@@ -63,7 +63,7 @@ public class Gomoku {
      * @param type The type of stone to place. Possible options available as static fields in Stone class
      * @throws GomokuException If col and row are invalid, or if stone type is invalid
      */
-    public void play(int row, int col, int type) throws GomokuException {
+    public void play(int row, int col, String type) throws GomokuException {
         strategy.play(row, col, type);
     }
 

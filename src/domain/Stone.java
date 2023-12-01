@@ -3,12 +3,12 @@ package domain;
 import domain.adapters.ColorAdapter;
 
 public class Stone {
-    public static final int NORMAL = 0;
-    public static final int HEAVY = 1;
-    public static final int TEMPORAL = 2;
+    public static final String NORMAL = "normal";
+    public static final String HEAVY = "heavy";
+    public static final String TEMPORAL = "temporal";
     protected final ColorAdapter color;
     protected final Tile tile;
-    protected int type;
+    protected String type;
 
     /**
      * Create a new Stone
@@ -30,10 +30,6 @@ public class Stone {
     }
 
     public String getType() {
-        return switch (this.type) {
-            case HEAVY -> "Heavy";
-            case TEMPORAL -> "Temporal";
-            default -> "Normal";
-        };
+        return this.type;
     }
 }
