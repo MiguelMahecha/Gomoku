@@ -6,7 +6,7 @@ public abstract class Player {
     protected String name;
     protected ColorAdapter color;
     protected int score;
-    protected int timeLeft;
+    protected int time;
     protected int stonesLeft;
 
     /**
@@ -17,6 +17,8 @@ public abstract class Player {
     public Player(String name, ColorAdapter color) {
         this.name = name;
         this.color = color;
+        this.time = 0;
+        this.stonesLeft = 0;
     }
 
     /**
@@ -24,12 +26,14 @@ public abstract class Player {
      * @param time The player's time
      * @return The Player
      */
-    public Player assignTime(int time) {
-        timeLeft = time;
+    public Player assignTime(int time) throws GomokuException {
+        if (time < 0) throw new GomokuException(GomokuException.INVALID_TIME_LIMIT + time);
+        this.time = time;
         return this;
     }
 
-    public Player assignStones(int amount) {
+    public Player assignStones(int amount) throws GomokuException {
+        if (amount <= 0) throw new GomokuException(GomokuException.INVALID_STONE_AMOUNT + amount);
         if (stonesLeft == 0) stonesLeft = amount;
         return this;
     }
@@ -70,8 +74,8 @@ public abstract class Player {
      * How much time the player has to win
      * @return An int
      */
-    public int getTimeLeft() {
-        return this.timeLeft;
+    public int getTime() {
+        return this.time;
     }
 
     /**

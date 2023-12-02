@@ -12,12 +12,14 @@ public class NormalGame extends GameStrategy {
      */
     public NormalGame(PlayerAdapter playerAdapter1, PlayerAdapter playerAdapter2, int size) throws GomokuException {
         super();
+
+        int stonesForPlayers = size*size;
 //        Player setup
         this.player1 = playerAdapter1.human() ? new HumanPlayer(playerAdapter1.name(), playerAdapter1.color()) : new RobotPlayer(playerAdapter1.name(), playerAdapter1.color());
-        this.player1.assignTime(playerAdapter1.timeLimit()).assignStones(playerAdapter1.stonesLeft());
+        this.player1.assignStones(stonesForPlayers);
 
         this.player2 = playerAdapter2.human() ? new HumanPlayer(playerAdapter2.name(), playerAdapter2.color()) : new RobotPlayer(playerAdapter2.name(), playerAdapter2.color());
-        this.player2.assignTime(playerAdapter2.timeLimit()).assignStones(playerAdapter2.stonesLeft());
+        this.player2.assignStones(stonesForPlayers);
 
         this.currentPlayer = this.player1;
 

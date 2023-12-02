@@ -11,8 +11,26 @@ public class Board {
      *
      * @param size The Board size
      */
-    public Board(int size) {
+    public Board(int size) throws GomokuException {
+        if (!validateSize(size)) throw new GomokuException(GomokuException.INVALID_BOARD_SIZE + size);
         this.size = size;
+        initTiles();
+    }
+
+    /**
+     * Initializes the board with empty tiles
+     */
+    private void initTiles() {
+        tiles = new Tile[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                tiles[i][j] = new Tile(i, j, this);
+            }
+        }
+    }
+
+    private boolean validateSize(int size) {
+        return size >= 0 && size <= 50;
     }
 
     /**

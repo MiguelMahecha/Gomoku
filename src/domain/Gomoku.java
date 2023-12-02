@@ -28,7 +28,7 @@ public class Gomoku {
      */
     public PlayerAdapter getCurrentPlayer() {
         Player p = strategy.getCurrentPlayer();
-        return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTimeLeft(), p.getStonesLeft(), p instanceof HumanPlayer);
+        return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTime(), p.getStonesLeft(), p instanceof HumanPlayer);
     }
 
     /**
@@ -39,7 +39,7 @@ public class Gomoku {
      */
     public PlayerAdapter getPlayerByColor(ColorAdapter color) throws GomokuException {
         Player p = strategy.getPlayerByColor(color);
-        return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTimeLeft(), p.getStonesLeft(), p instanceof HumanPlayer);
+        return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTime(), p.getStonesLeft(), p instanceof HumanPlayer);
     }
 
     /**
@@ -53,7 +53,8 @@ public class Gomoku {
             for (int j = 0; j < strategy.gameSize(); j++) {
                 Tile t = board.getTile(i, j);
                 Stone s = t.getStone();
-                tiles[i][j] = new TileAdapter(t.row, t.col, t.getType(), new StoneAdapter(s.getType(), s.getColor()));
+                if (s != null) tiles[i][j] = new TileAdapter(t.row, t.col, t.getType(), new StoneAdapter(s.getType(), s.getColor()));
+                else tiles[i][j] = new TileAdapter(t.row, t.col, t.getType(), null);
             }
         }
         return tiles;
@@ -67,7 +68,7 @@ public class Gomoku {
      * @throws GomokuException If col and row are invalid, or if stone type is invalid
      */
     public void play(int row, int col, String type) throws GomokuException {
-        strategy.play(row, col, type);
+        strategy.play(row, col, type.toLowerCase());
     }
 
     /**
@@ -93,7 +94,7 @@ public class Gomoku {
      */
     public PlayerAdapter getWinner() throws GomokuException {
         Player p = strategy.getWinner();
-        return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTimeLeft(), p.getStonesLeft(), p instanceof HumanPlayer);
+        return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTime(), p.getStonesLeft(), p instanceof HumanPlayer);
     }
 
     public String getType() {
