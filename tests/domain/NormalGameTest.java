@@ -118,23 +118,25 @@ class NormalGameTest {
     public void shouldPlaceStoneAtValidTile() {
         try {
             game = new Gomoku(p1, p2, size);
+            ColorAdapter color = game.getCurrentPlayer().color();
             game.play(0, 1, "normal");
             TileAdapter[][] board = game.getBoard();
             assertNotNull(board[0][1].stone());
             assertEquals("normal", board[0][1].stone().type());
+            assertEquals(color, board[0][1].stone().color());
         } catch (GomokuException e) {
             fail("Threw Exception");
         }
     }
 
     @Test
-    public void shouldNotPlaceStoneAtValidTile() {
+    public void shouldNotPlaceStoneAtInvalidTile() {
         try {
             game = new Gomoku(p1, p2, size);
             game.play(-3, 1, "normal");
             fail("Did not throw exception");
         } catch (GomokuException e) {
-            assertEquals(GomokuException.INVALID_MOVE, e.getMessage());
+            assertTrue(e.getMessage().contains(GomokuException.NOT_VALID_COORDINATE));
         }
     }
 
@@ -142,10 +144,65 @@ class NormalGameTest {
     public void shouldNotPlaceStoneOfInvalidType() {
         try {
             game = new Gomoku(p1, p2, size);
-            game.play(-3, 1, "weird");
+            game.play(0, 1, "weird");
             fail("Did not throw exception");
         } catch (GomokuException e) {
-            assertEquals(GomokuException.NOT_VALID_STONE_TYPE, e.getMessage());
+            assertTrue(e.getMessage().contains(GomokuException.NOT_VALID_STONE_TYPE));
         }
     }
+
+    @Test
+    public void shouldSwitchPlayerTurnAfterPlay() {
+        try {
+            game = new Gomoku(p1, p2, size);
+            ColorAdapter color = game.getCurrentPlayer().color();
+            game.play(0, 1, "normal");
+            ColorAdapter color2 = game.getCurrentPlayer().color();
+            assertNotEquals(color, color2);
+        } catch (GomokuException e) {
+            fail("Threw Exception");
+        }
+    }
+
+    @Test
+    public void shouldAllowWinOnHorizontalChain() {
+        try {
+            game = new Gomoku(p1, p2, size);
+            ColorAdapter color = game.getCurrentPlayer().color();
+            game.play(0, 1, "normal");
+            game.play(1, 6, "normal");
+            game.play(0, 2, "normal");
+            game.play(2, 8, "normal");
+            game.play(0, 3, "normal");
+            game.play(3, 9, "normal");
+            game.play(0, 4, "normal");
+            game.play(4, 0, "normal");
+            game.play(0, 5, "normal");
+            assertTrue(game.gameWon());
+        } catch (GomokuException e) {
+            fail("Threw Exception");
+        }
+    }
+
+    @Test
+    public void shouldAllowWinOnVerticalChain() {
+        try {
+            game = new Gomoku(p1, p2, size);
+            ColorAdapter color = game.getCurrentPlayer().color();
+            game.play(1, 0, "normal");
+            game.play(0, 1, "normal");
+            game.play(2, 0, "normal");
+            game.play(0, 3, "normal");
+            game.play(3, 0, "normal");
+            game.play(0, 5, "normal");
+            game.play(4, 0, "normal");
+            game.play(0, 7, "normal");
+            game.play(5, 0, "normal");
+            assertTrue(game.gameWon());
+
+        } catch (GomokuException e) {
+            fail("Threw Exception");
+        }
+    }
+
 }

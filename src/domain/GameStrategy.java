@@ -7,6 +7,8 @@ public abstract class GameStrategy {
     protected Player player2;
     protected Player currentPlayer;
     protected Board board;
+    protected boolean gameWon;
+    protected boolean gameDraw;
 
     /**
      * Get the current player
@@ -37,6 +39,10 @@ public abstract class GameStrategy {
         return this.board;
     }
 
+    /**
+     * Get the board size. Boards are square
+     * @return The size of one of the sides of the board.
+     */
     public int gameSize() {
         return board.size();
     }
@@ -90,4 +96,8 @@ public abstract class GameStrategy {
     }
 
     public abstract String getType();
+
+    public boolean checkIfWon() {
+        return this.gameWon;
+    }
 }

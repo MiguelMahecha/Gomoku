@@ -15,4 +15,10 @@ public class TemporalStone extends Stone {
         super(color, tile);
         lifespan = 3;
     }
+
+    public void reduceLifespan() {
+        lifespan -= 1;
+
+        if (lifespan == 0) tile.removeStone();
+    }
 }

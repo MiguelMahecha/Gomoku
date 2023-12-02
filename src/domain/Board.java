@@ -1,5 +1,7 @@
 package domain;
 
+import domain.adapters.ColorAdapter;
+
 public class Board {
     private Tile[][] tiles;
     private int size;
@@ -58,7 +60,8 @@ public class Board {
      * @param col  The col to place Stone
      * @param type The type of Stone to place
      */
-    public void play(int row, int col, int type) {
+    public void play(int row, int col, String type, ColorAdapter playerColor) {
+        tiles[row][col].placeStone(type, playerColor);
     }
 
     /**
@@ -92,5 +95,9 @@ public class Board {
 
     public int size() {
         return this.size;
+    }
+
+    public Tile[][] getBoard() {
+        return tiles;
     }
 }

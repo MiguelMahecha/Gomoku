@@ -1,5 +1,7 @@
 package domain;
 
+import domain.adapters.ColorAdapter;
+
 public class Tile {
     public static final int MINE = 0;
     public static final int TELEPORT = 1;
@@ -30,8 +32,12 @@ public class Tile {
      *
      * @param stone The stone to place
      */
-    public void placeStone(Stone stone) {
-        this.stone = stone;
+    public void placeStone(String stone, ColorAdapter playerColor) {
+        this.stone = switch (stone) {
+            case Stone.HEAVY -> new HeavyStone(playerColor, this);
+            case Stone.TEMPORAL -> new TemporalStone(playerColor, this);
+            default -> new Stone(playerColor, this);
+        };
     }
 
     /**
@@ -65,5 +71,9 @@ public class Tile {
             case GOLDEN -> "Golden";
             default -> "Normal";
         };
+    }
+
+    public void removeStone() {
+        this.stone = null;
     }
 }

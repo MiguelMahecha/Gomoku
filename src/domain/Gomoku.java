@@ -76,7 +76,7 @@ public class Gomoku {
      * @return True if win condition has been met, false otherwise
      */
     public boolean gameWon() {
-        return strategy.gameWon();
+        return strategy.checkIfWon();
     }
 
     /**
