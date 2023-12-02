@@ -10,6 +10,14 @@ public abstract class GameStrategy {
     protected boolean gameWon;
     protected boolean gameDraw;
 
+    public Player getPlayer1() {
+        return this.player1;
+    }
+
+    public Player getPlayer2() {
+        return this.player2;
+    }
+
     /**
      * Get the current player
      * @return A Player object

@@ -22,6 +22,16 @@ public class Gomoku {
         strategy = new NormalGame(player1, player2, size);
     }
 
+    public PlayerAdapter getPlayerOne() {
+        Player p = strategy.getPlayer1();
+        return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTime(), p.getStonesLeft(), p instanceof HumanPlayer);
+    }
+
+    public PlayerAdapter getPlayerTwo() {
+        Player p = strategy.getPlayer2();
+        return new PlayerAdapter(p.getName(), p.getColor(), p.getScore(), p.getTime(), p.getStonesLeft(), p instanceof HumanPlayer);
+    }
+
     /**
      * Get the current player
      * @return A Player Adapter

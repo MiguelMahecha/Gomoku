@@ -99,7 +99,7 @@ public class GomokuGUI extends JFrame {
             PlayerAdapter p1 = new PlayerAdapter(p1Name, p1ColorAdapter, 0, 0, size*size, true);
             PlayerAdapter p2 = new PlayerAdapter(p1Name, p2ColorAdapter, 0, 0, size*size, true);
             gomoku = new Gomoku(p1, p2, size);
-            gameScreen = new GameScreen(gomoku);
+            gameScreen = new GameScreen(gomoku, getSize());
             getContentPane().add(gameScreen, GAME_SCREEN);
             cardLayout.show(getContentPane(), GAME_SCREEN);
         } catch (GomokuException e) {
