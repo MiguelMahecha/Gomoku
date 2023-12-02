@@ -1,6 +1,9 @@
 package presentation;
 
 import domain.Gomoku;
+import domain.GomokuException;
+import domain.adapters.ColorAdapter;
+import domain.adapters.PlayerAdapter;
 import presentation.screens.ConfigScreen;
 import presentation.screens.GameScreen;
 import presentation.screens.WelcomeScreen;
@@ -10,6 +13,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Objects;
 
 public class GomokuGUI extends JFrame {
     public static final String CONFIG_SCREEN = "config";
@@ -52,15 +56,13 @@ public class GomokuGUI extends JFrame {
 
     private void prepareElementsScreens() {
         welcomeScreen = new WelcomeScreen();
-        configScreen = new ConfigScreen();
-        gameScreen = new GameScreen();
+        configScreen = new ConfigScreen(this);
         cardLayout = new CardLayout();
         Container container = getContentPane();
         container.setLayout(cardLayout);
 
         container.add(welcomeScreen, WELCOME_SCREEN);
         container.add(configScreen, CONFIG_SCREEN);
-        container.add(gameScreen, GAME_SCREEN);
 
         cardLayout.show(container, WELCOME_SCREEN);
     }
@@ -90,13 +92,34 @@ public class GomokuGUI extends JFrame {
         });
     }
 
+    public void createGame(String p1Name, Color p1Color, String p2Name, Color p2Color, int size) {
+        try {
+            ColorAdapter p1ColorAdapter = new ColorAdapter(p1Color.getRed(), p1Color.getGreen(), p1Color.getBlue());
+            ColorAdapter p2ColorAdapter = new ColorAdapter(p2Color.getRed(), p2Color.getGreen(), p2Color.getBlue());
+            PlayerAdapter p1 = new PlayerAdapter(p1Name, p1ColorAdapter, 0, 0, size*size, true);
+            PlayerAdapter p2 = new PlayerAdapter(p1Name, p2ColorAdapter, 0, 0, size*size, true);
+            gomoku = new Gomoku(p1, p2, size);
+            gameScreen = new GameScreen(gomoku);
+            getContentPane().add(gameScreen, GAME_SCREEN);
+            cardLayout.show(getContentPane(), GAME_SCREEN);
+        } catch (GomokuException e) {
+            errorMessage(e.getMessage());
+        }
+    }
+
+    private void errorMessage(String msg) {
+        JOptionPane.showMessageDialog(null, msg);
+    }
+
     private void exitDialog() {
         int result = JOptionPane.showConfirmDialog(null, "Exit Game?", getTitle(), JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) System.exit(0);
     }
 
     public static void main(String[] args) {
-        GomokuGUI app = new GomokuGUI();
-        app.setVisible(true);
+        SwingUtilities.invokeLater(() -> {
+            GomokuGUI app = new GomokuGUI();
+            app.setVisible(true);
+        });
     }
 }
