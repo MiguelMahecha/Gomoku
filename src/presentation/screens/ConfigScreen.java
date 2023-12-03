@@ -96,7 +96,9 @@ public class ConfigScreen extends JPanel {
 
         this.createGameBtn.addActionListener(ev -> {
             int size = Integer.parseInt(boardSizeField.getText());
-            gui.createGame(playerOneNameField.getText(), p1Color, playerTwoNameField.getText(), p2Color, size);
+            String p1Name = playerOneNameField.getText();
+            String p2Name = playerTwoNameField.getText();
+            gui.createGame(p1Name, p1Color, p2Name, p2Color, size);
         });
     }
 }

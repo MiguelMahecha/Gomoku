@@ -13,6 +13,8 @@ public class GameScreen extends JPanel {
     private final JButton[][] buttons;
     private Dimension frameDimension;
     private GridBagConstraints gbc;
+    private JLabel playerOne, playerOneStones, playerOneTime, playerOneScore;
+    private JLabel playerTwo, playerTwoStones, playerTwoTime, playerTwoScore;
 
     public GameScreen(Gomoku gomoku, Dimension dimension) {
         this.gomoku = gomoku;
@@ -29,7 +31,6 @@ public class GameScreen extends JPanel {
     }
 
     private void prepareElementsBoard() {
-//        setLayout(new BorderLayout(gomoku.getBoard().length, gomoku.getBoard().length));
         board = new JPanel();
         board.setLayout(new GridBagLayout());
         board.setSize(new Dimension((int)frameDimension.getWidth() / 2, (int)frameDimension.getHeight()));
@@ -37,10 +38,6 @@ public class GameScreen extends JPanel {
         for (int i = 0; i < gomoku.getBoard().length; i++) {
             for (int j = 0; j < gomoku.getBoard().length; j++) {
                 JButton button = new JButton();
-                int tileWidth = board.getWidth() / gomoku.getBoard().length;
-                int tileHeight = board.getHeight() / gomoku.getBoard().length;
-                int tileDim = Math.min(tileHeight, tileWidth);
-                button.setSize(new Dimension(tileDim, tileDim));
                 button.setBackground(Color.BLUE);
                 int preferredSize = Math.min(board.getWidth() / gomoku.getBoard().length, board.getHeight() / gomoku.getBoard().length);
                 gbc.gridx = j;
@@ -48,7 +45,6 @@ public class GameScreen extends JPanel {
                 gbc.fill = GridBagConstraints.BOTH;
                 gbc.weightx = 1.0;
                 gbc.weighty = 1.0;
-                gbc.insets = new Insets(2, 2, 2, 2);
                 button.setPreferredSize(new Dimension(preferredSize, preferredSize));
                 buttons[i][j] = button;
                 board.add(button, gbc);
@@ -63,19 +59,42 @@ public class GameScreen extends JPanel {
     private void prepareElementsGameInfo() {
         gameInfo = new JPanel();
         gameInfo.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(1, 1, 1, 1);
 
-        JLabel playerOne = new JLabel(String.format("%s", gomoku.getPlayerOne().name()));
-        gbc.gridy = 0;
-        gameInfo.add(playerOne, gbc);
-        JLabel playerTwo = new JLabel(String.format("%s", gomoku.getPlayerTwo().name()));
-        gbc.gridy = 1;
-        gameInfo.add(playerTwo, gbc);
+        refreshGameInfo();
 
         gameInfo.setVisible(true);
         this.gbc.gridx = 1;
         this.gbc.weightx = 0.3;
         add(gameInfo, this.gbc);
+    }
+
+    private void refreshGameInfo() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(1, 1, 1, 1);
+        playerOne = new JLabel(String.format("%s", gomoku.getPlayerOne().name()));
+        gbc.gridy = 0;
+        gameInfo.add(playerOne, gbc);
+        playerOneStones = new JLabel(String.format("Stones left: %d", gomoku.getPlayerOne().stonesLeft()));
+        gbc.gridy = 1;
+        gameInfo.add(playerOneStones, gbc);
+        playerOneTime = new JLabel(String.format("Time: %d", gomoku.getPlayerOne().time()));
+        gbc.gridy = 2;
+        gameInfo.add(playerOneTime, gbc);
+        playerOneScore = new JLabel(String.format("Score: %d", gomoku.getPlayerOne().score()));
+        gbc.gridy = 3;
+        gameInfo.add(playerOneScore, gbc);
+
+        playerTwo = new JLabel(String.format("%s", gomoku.getPlayerTwo().name()));
+        gbc.gridy = 4;
+        gameInfo.add(playerTwo, gbc);
+        playerTwoStones = new JLabel(String.format("Stones left: %d", gomoku.getPlayerTwo().stonesLeft()));
+        gbc.gridy = 5;
+        gameInfo.add(playerTwoStones, gbc);
+        playerTwoTime = new JLabel(String.format("Time: %d", gomoku.getPlayerTwo().time()));
+        gbc.gridy = 6;
+        gameInfo.add(playerTwoTime, gbc);
+        playerTwoScore = new JLabel(String.format("Score: %d", gomoku.getPlayerTwo().score()));
+        gbc.gridy = 7;
+        gameInfo.add(playerTwoScore, gbc);
     }
 }

@@ -97,7 +97,7 @@ public class GomokuGUI extends JFrame {
             ColorAdapter p1ColorAdapter = new ColorAdapter(p1Color.getRed(), p1Color.getGreen(), p1Color.getBlue());
             ColorAdapter p2ColorAdapter = new ColorAdapter(p2Color.getRed(), p2Color.getGreen(), p2Color.getBlue());
             PlayerAdapter p1 = new PlayerAdapter(p1Name, p1ColorAdapter, 0, 0, size*size, true);
-            PlayerAdapter p2 = new PlayerAdapter(p1Name, p2ColorAdapter, 0, 0, size*size, true);
+            PlayerAdapter p2 = new PlayerAdapter(p2Name, p2ColorAdapter, 0, 0, size*size, true);
             gomoku = new Gomoku(p1, p2, size);
             gameScreen = new GameScreen(gomoku, getSize());
             getContentPane().add(gameScreen, GAME_SCREEN);
