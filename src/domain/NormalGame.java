@@ -41,10 +41,12 @@ public class NormalGame extends GameStrategy {
 
            if (gameDraw()) {
                this.gameDraw = true;
+               System.out.println("DRAW!!");
                return;
            }
            else if (gameWon()) {
                this.gameWon = true;
+               System.out.println("WON!!");
                return;
            }
            turn();

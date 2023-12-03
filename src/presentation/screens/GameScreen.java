@@ -1,10 +1,16 @@
 package presentation.screens;
 
 import domain.Gomoku;
+import domain.GomokuException;
+import domain.Tile;
+import domain.adapters.ColorAdapter;
 import domain.adapters.TileAdapter;
+import presentation.components.PlayerData;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameScreen extends JPanel {
     private final Gomoku gomoku;
@@ -23,6 +29,7 @@ public class GameScreen extends JPanel {
         buttons = new JButton[gomoku.getBoard().length][gomoku.getBoard().length];
         this.frameDimension = dimension;
         prepareElements();
+        prepareActions();
     }
 
     public void prepareElements() {
@@ -35,6 +42,7 @@ public class GameScreen extends JPanel {
         board.setLayout(new GridBagLayout());
         board.setSize(new Dimension((int)frameDimension.getWidth() / 2, (int)frameDimension.getHeight()));
         GridBagConstraints gbc = new GridBagConstraints();
+        TileAdapter[][] tiles = gomoku.getBoard();
         for (int i = 0; i < gomoku.getBoard().length; i++) {
             for (int j = 0; j < gomoku.getBoard().length; j++) {
                 JButton button = new JButton();
@@ -46,6 +54,11 @@ public class GameScreen extends JPanel {
                 gbc.weightx = 1.0;
                 gbc.weighty = 1.0;
                 button.setPreferredSize(new Dimension(preferredSize, preferredSize));
+                if (tiles[i][j].stone() != null) {
+                    ColorAdapter color = tiles[i][j].stone().color();
+                    Color c = new Color(color.r(), color.g(), color.b());
+                    button.setBackground(c);
+                }
                 buttons[i][j] = button;
                 board.add(button, gbc);
             }
@@ -54,6 +67,44 @@ public class GameScreen extends JPanel {
         this.gbc.gridx = 0;
         this.gbc.weightx = 0.7;
         add(board, this.gbc);
+    }
+
+    private void prepareActions() {
+        prepareActionsBoard();
+    }
+
+    private void prepareActionsBoard() {
+        for (int i = 0; i < gomoku.getBoard().length; i++) {
+            for (int j = 0; j < gomoku.getBoard().length; j++) {
+                final int row = i;
+                final int col = j;
+                buttons[i][j].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            gomoku.play(row, col, "normal");
+                            refreshGameInfo();
+                            refreshBoard();
+                        } catch (GomokuException err) {
+                            errorMessage(err.getMessage());
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    private void refreshBoard() {
+        TileAdapter[][] tiles = gomoku.getBoard();
+        for (int i = 0; i < buttons.length; i++) {
+            for (int j = 0; j < buttons.length; j++) {
+                if (tiles[i][j].stone() != null) {
+                    ColorAdapter color = tiles[i][j].stone().color();
+                    Color c = new Color(color.r(), color.g(), color.b());
+                    buttons[i][j].setBackground(c);
+                }
+            }
+        }
     }
 
     private void prepareElementsGameInfo() {
@@ -70,31 +121,15 @@ public class GameScreen extends JPanel {
 
     private void refreshGameInfo() {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(1, 1, 1, 1);
-        playerOne = new JLabel(String.format("%s", gomoku.getPlayerOne().name()));
+        JPanel playerOne = new PlayerData(gomoku.getPlayerOne());
+        JPanel playerTwo = new PlayerData(gomoku.getPlayerTwo());
         gbc.gridy = 0;
         gameInfo.add(playerOne, gbc);
-        playerOneStones = new JLabel(String.format("Stones left: %d", gomoku.getPlayerOne().stonesLeft()));
         gbc.gridy = 1;
-        gameInfo.add(playerOneStones, gbc);
-        playerOneTime = new JLabel(String.format("Time: %d", gomoku.getPlayerOne().time()));
-        gbc.gridy = 2;
-        gameInfo.add(playerOneTime, gbc);
-        playerOneScore = new JLabel(String.format("Score: %d", gomoku.getPlayerOne().score()));
-        gbc.gridy = 3;
-        gameInfo.add(playerOneScore, gbc);
-
-        playerTwo = new JLabel(String.format("%s", gomoku.getPlayerTwo().name()));
-        gbc.gridy = 4;
         gameInfo.add(playerTwo, gbc);
-        playerTwoStones = new JLabel(String.format("Stones left: %d", gomoku.getPlayerTwo().stonesLeft()));
-        gbc.gridy = 5;
-        gameInfo.add(playerTwoStones, gbc);
-        playerTwoTime = new JLabel(String.format("Time: %d", gomoku.getPlayerTwo().time()));
-        gbc.gridy = 6;
-        gameInfo.add(playerTwoTime, gbc);
-        playerTwoScore = new JLabel(String.format("Score: %d", gomoku.getPlayerTwo().score()));
-        gbc.gridy = 7;
-        gameInfo.add(playerTwoScore, gbc);
+    }
+
+    private void errorMessage(String msg) {
+        JOptionPane.showMessageDialog(null, String.format("Error: %s", msg));
     }
 }
